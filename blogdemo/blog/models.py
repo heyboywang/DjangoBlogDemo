@@ -36,6 +36,9 @@ class Comment(models.Model):
     datetime = models.DateTimeField(auto_now_add=True,null=True,blank=True)
     articleid = models.ForeignKey('Article',on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.username
+
 
 
 
