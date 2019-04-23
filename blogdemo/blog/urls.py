@@ -6,5 +6,6 @@ app_name = "blog"
 
 urlpatterns = [
     url(r'^$',views.index,name="index"),
+    url(r'^single/(\d+)/$',views.single,name="single"),
 
 ]
