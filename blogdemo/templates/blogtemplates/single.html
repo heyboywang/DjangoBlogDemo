@@ -176,7 +176,7 @@
                     <ul>
                         {% for sort in sorts %}
                         <li>
-                            <a href="#">{{sort.sortname}} <span class="post-count">({{sort.article_set.all.count}})</span></a>
+                            <a href="{% url 'blog:sarticle' sort.id %}">{{sort.sortname}} <span class="post-count">({{sort.article_set.all.count}})</span></a>
                         </li>
                         {% empty %}
                         <h3>暂无文章</h3>
@@ -189,7 +189,7 @@
                     <ul>
                         {% for tag in tags %}
                         <li>
-                            <a href="#">{{tag.tagname}}</a>
+                            <a href="{% url 'blog:tarticle' tag.id %}">{{tag.tagname}}</a>
                         </li>
                         {% empty %}
                         <h3>暂无文章</h3>
