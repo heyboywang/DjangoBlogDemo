@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import *
 from django.http import HttpResponse,HttpResponseRedirect
 import datetime
+import markdown
 
 # Create your views here.
 
@@ -43,17 +44,13 @@ def montharticle(request,y,m):
 
 def single(request,id):
     if request.method == "POST":
-        name = request.POST["name"]
-        eamil = request.POST["email"]
-        website = request.POST["url"]
-        content = request.POST["comment"]
         articleid = request.POST["articleid"]
         art = Article.objects.get(pk=int(articleid))
         comment = Comment()
-        comment.username = name
-        comment.website = website
-        comment.email = eamil
-        comment.content = content
+        comment.username = request.POST["name"]
+        comment.website = request.POST["url"]
+        comment.email = request.POST["email"]
+        comment.content = request.POST["comment"]
         comment.articleid = art
         comment.save()
 
@@ -65,6 +62,14 @@ def single(request,id):
     article.save()
     comments =article.comment_set.all()
 
+    md = markdown.Markdown(extensions=[
+        'markdown.extensions.extra',
+        'markdown.extensions.codehilite',
+        'markdown.extensions.toc',
+    ])
+    article.content = md.convert(article.content)
+    article.toc = md.toc
+
+
     # return HttpResponseRedirect("/single/"+str(article.id)+"/",{"article":article,'comments':comments})
     return render(request,"blogtemplates/single.html",{"article":article,'comments':comments,"articles":articles, "sorts": sorts, "tags": tags})
-    # return HttpResponse("成功")
